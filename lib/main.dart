@@ -72,6 +72,7 @@ class _MyAppState extends State<MyApp> {
     }
   }
 
+  //get token of app
   _register() {
     _firebaseMessaging.getToken().then((token) => print(token));
   }
@@ -80,7 +81,9 @@ class _MyAppState extends State<MyApp> {
     await _demoNotification(title: title, msg: msg);
   }
 
-  Future<void> _demoNotification({String title = "Hello, buddy", msg = 'A message from flutter buddy'}) async {
+  Future<void> _demoNotification(
+      {String title = "Hello, buddy",
+      msg = 'A message from flutter buddy'}) async {
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
         'channel_ID', 'channel name', 'channel description',
         importance: Importance.max,
@@ -91,9 +94,8 @@ class _MyAppState extends State<MyApp> {
     var platformChannelSpecifics = NotificationDetails(
         android: androidPlatformChannelSpecifics, iOS: iOSChannelSpecifics);
 
-    await flutterLocalNotificationsPlugin.show(0, title,
-        msg, platformChannelSpecifics,
-        payload: 'test oayload');
+    await flutterLocalNotificationsPlugin
+        .show(0, title, msg, platformChannelSpecifics, payload: 'test oayload');
   }
 
   Future onSelectNotification(String payload) async {
@@ -107,22 +109,23 @@ class _MyAppState extends State<MyApp> {
   Future onDidReceiveLocalNotification(
       int id, String title, String body, String payload) async {
     await showDialog(
-        context: context,
-        builder: (BuildContext context) => CupertinoAlertDialog(
-              title: Text(title),
-              content: Text(body),
-              actions: <Widget>[
-                CupertinoDialogAction(
-                  isDefaultAction: true,
-                  child: Text('Ok'),
-                  onPressed: () async {
-                    // Navigator.of(context, rootNavigator: true).pop();
-                    // await Navigator.push(context,
-                    //     MaterialPageRoute(builder: (context) => SecondRoute()));
-                  },
-                )
-              ],
-            ));
+      context: context,
+      builder: (BuildContext context) => CupertinoAlertDialog(
+        title: Text(title),
+        content: Text(body),
+        actions: <Widget>[
+          CupertinoDialogAction(
+            isDefaultAction: true,
+            child: Text('Ok'),
+            onPressed: () async {
+              // Navigator.of(context, rootNavigator: true).pop();
+              // await Navigator.push(context,
+              //     MaterialPageRoute(builder: (context) => SecondRoute()));
+            },
+          )
+        ],
+      ),
+    );
   }
 
   void getMessage() {
@@ -131,21 +134,27 @@ class _MyAppState extends State<MyApp> {
         print('on message $message');
         setState(() {
           _message = message["notification"]["title"];
-          _showNotification(title: message["notification"]["title"], msg: message["notification"]["body"]);
+          _showNotification(
+              title: message["notification"]["title"],
+              msg: message["notification"]["body"]);
         });
       },
       onResume: (Map<String, dynamic> message) async {
         print('on resume $message');
         setState(() {
           _message = message["notification"]["title"];
-          _showNotification(title: message["notification"]["title"], msg: message["notification"]["body"]);
+          _showNotification(
+              title: message["notification"]["title"],
+              msg: message["notification"]["body"]);
         });
       },
       onLaunch: (Map<String, dynamic> message) async {
-        print('on launch $message'); 
+        print('on launch $message');
         setState(() {
           _message = message["notification"]["title"];
-          _showNotification(title: message["notification"]["title"], msg: message["notification"]["body"]);
+          _showNotification(
+              title: message["notification"]["title"],
+              msg: message["notification"]["body"]);
         });
       },
       onBackgroundMessage: Fcm.myBackgroundMessageHandler,

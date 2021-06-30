@@ -60,3 +60,4 @@
           <receiver android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationReceiver" />
     </application>
 </manifest>
+ 
